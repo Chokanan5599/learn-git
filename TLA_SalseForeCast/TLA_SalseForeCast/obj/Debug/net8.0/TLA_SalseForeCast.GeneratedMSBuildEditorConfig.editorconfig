@@ -1,0 +1,75 @@
+is_global = true
+build_property.TargetFramework = net8.0
+build_property.TargetFramework = net8.0
+build_property.TargetPlatformMinVersion = 
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = TLA_SalseForeCast
+build_property.RootNamespace = TLA_SalseForeCast
+build_property.ProjectDir = D:\source\repos\ESPG_SalesForecast_Front\2024-06-08\TLA_SalseForeCast\TLA_SalseForeCast\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 8.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = D:\source\repos\ESPG_SalesForecast_Front\2024-06-08\TLA_SalseForeCast\TLA_SalseForeCast
+build_property._RazorSourceGeneratorDebug = 
+
+[D:/source/repos/ESPG_SalesForecast_Front/2024-06-08/TLA_SalseForeCast/TLA_SalseForeCast/Views/Form_Fill_Date/Form_Fill_Date.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRm9ybV9GaWxsX0RhdGVcRm9ybV9GaWxsX0RhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/source/repos/ESPG_SalesForecast_Front/2024-06-08/TLA_SalseForeCast/TLA_SalseForeCast/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/source/repos/ESPG_SalesForecast_Front/2024-06-08/TLA_SalseForeCast/TLA_SalseForeCast/Views/Home/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxMb2dpbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/source/repos/ESPG_SalesForecast_Front/2024-06-08/TLA_SalseForeCast/TLA_SalseForeCast/Views/Home/SalesForeCasst_Customer_List.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxTYWxlc0ZvcmVDYXNzdF9DdXN0b21lcl9MaXN0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/source/repos/ESPG_SalesForecast_Front/2024-06-08/TLA_SalseForeCast/TLA_SalseForeCast/Views/Home/SalesForeCasst_Dashboard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxTYWxlc0ZvcmVDYXNzdF9EYXNoYm9hcmQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/source/repos/ESPG_SalesForecast_Front/2024-06-08/TLA_SalseForeCast/TLA_SalseForeCast/Views/Home/SalesForeCasst_Detail.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxTYWxlc0ZvcmVDYXNzdF9EZXRhaWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/source/repos/ESPG_SalesForecast_Front/2024-06-08/TLA_SalseForeCast/TLA_SalseForeCast/Views/Report/Quotation_Draft.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0XFF1b3RhdGlvbl9EcmFmdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/source/repos/ESPG_SalesForecast_Front/2024-06-08/TLA_SalseForeCast/TLA_SalseForeCast/Views/Shared/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/source/repos/ESPG_SalesForecast_Front/2024-06-08/TLA_SalseForeCast/TLA_SalseForeCast/Views/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/source/repos/ESPG_SalesForecast_Front/2024-06-08/TLA_SalseForeCast/TLA_SalseForeCast/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/source/repos/ESPG_SalesForecast_Front/2024-06-08/TLA_SalseForeCast/TLA_SalseForeCast/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/source/repos/ESPG_SalesForecast_Front/2024-06-08/TLA_SalseForeCast/TLA_SalseForeCast/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-22w29j6owp

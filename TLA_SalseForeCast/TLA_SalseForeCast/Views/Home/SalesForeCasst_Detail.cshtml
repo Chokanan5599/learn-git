@@ -1,0 +1,914 @@
+﻿@{
+    ViewData["Title"] = "SalesForeCasst_Detail";
+}
+<link href="~/dist/css/adminlte.min.css" rel="stylesheet" />
+<style>
+    .card-body input {
+        width: 100%;
+        padding: 5px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+    }
+
+    #lis_2 {
+        background-color: #0C356A;
+        border-radius: 5px;
+    }
+
+    .related-Infor {
+        margin-right: 5px;
+        margin-bottom: 5px;
+    }
+
+    .input-group-text {
+        margin-right: 5px;
+    }
+
+    #tb_sales_forecast_list {
+        flex-wrap: nowrap;
+    }
+
+    #tb_formmula {
+        font-size: 10px;
+    }
+
+    .highlight td {
+        background-color: #A7E6FF !important;
+        transition: background-color 0.5s ease;
+    }
+
+    .input-group-text{
+        width:86%;
+    }
+
+    .btn{
+        border-radius: 20px;
+    }
+    @@media screen and (max-width: 1024px) {
+        #tb_sales_forecast_list {
+            font-size: 8px;
+        }
+    }
+
+    @@media screen and (max-width: 760px) {
+        #tb_sales_forecast_list {
+            font-size: 6px;
+        }
+    }
+
+    @@media screen and (max-width: 375px) {
+        #tb_sales_forecast_list {
+            font-size: 4px;
+        }
+    }
+</style>
+<section class="content" style="padding-top:15px;">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="row">
+
+                    <div class="col-lg-12 col-6">
+                        <div class="card card-primary">
+
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-4">
+                                        <label>QUOTATION NO.</label>
+                                        <input type="text" class="form-control" placeholder="QUOTATION NO." id="quotation_No" disabled>
+                                    </div>
+                                    <div class="col-4">
+                                        <label>SALES ORDERE NO.</label>
+                                        <input type="text" class="form-control" placeholder="SALES ORDERE NO." id="salesOrder_No" disabled>
+                                    </div>
+                                    <div class="col-4">
+                                        <label>SALES ORDERE STATUS</label>
+                                        <input type="text" class="form-control" placeholder="SALES ORDERE STATUS" id="salesOrder_Status"  disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                    </div>
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+</section>
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card card-default" >
+                    <div class="card-header" style="background:#61AFFE;">
+                        <h3 class="card-title">SALES FORECAST LIST:</h3>
+
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse" style="color:black;">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body" >
+                        <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="row" style="padding-bottom:5px;">
+                                        <div class="col-sm-4">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <button type="button" class="btn btn-block btn-outline-warning btn-sm">NEW</button>
+                                                </div>
+                                                <div class="col">
+                                                    <button type="button" class="btn btn-block btn-outline-warning btn-sm">EDIT</button>
+                                                </div>
+
+                                                <div class="col">
+                                                    <button type="button" class="btn btn-block btn-outline-warning btn-sm">CANCEL</button>
+                                                </div>
+                                                <div class="col">
+                                                    @* <button type="button" class="btn btn-block btn-outline-primary btn-xs">COPY</button> *@
+                                                    <select class="form-select form-select-sm btn btn-block btn-outline-primary btn-sm" aria-label="Small select example" id="slt_Copy_Forecast" style="width:170%;">
+                                                        <option select value="">COPY</option>
+                                                        <option value="">COPY FORECAST LIST</option>
+                                                        <option value="">COPY LINE</option>
+                                                    </select>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <button type="button" class="btn btn-block btn-primary btn-sm">APPROVE</button>
+                                                </div>
+                                                <div class="col">
+                                                    <button type="button" class="btn btn-block btn-success btn-sm">CONFIRM</button>
+                                                </div>
+
+                                                <div class="col">
+                                                    <button type="button" class="btn btn-block btn-primary btn-sm">REFRESH</button>
+                                                </div>
+                                                <div class="col">
+                                                    @* <button type="button" class="btn btn-block btn-outline-danger btn-xs">REPORT</button> *@
+                                                    <select class="form-select form-select-sm btn btn-block btn-outline-danger btn-sm" aria-label="Small select example" id="slt_Report_Forecast">
+                                                        <option select value="">REPORT</option>
+                                                        <option value="">QUOTATION (DRAFT)</option>
+                                                        <option value="">QUOTATION ETP</option>
+                                                        <option value="">BET Sales Quotation</option>
+                                                        <option value="">Quotation 1 TON</option>
+                                                    </select>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <table id="tb_sales_forecast_list" class="table table-bordered table-hover dataTable dtr-inline display nowrap" width="100%" style="font-size:14px;">
+                                        <thead class="thead-light" style="text-align:center;">
+                                            <tr>
+                                                @* ------Colum Hidde----- *@
+                                                <th>Quotation ID</th>
+                                                <th>TransportaTion_Type</th>
+                                                <th>expenses_2</th>
+                                                <th>expenses_5</th>
+                                                <th>expenses_9</th>
+                                                <th>expenses_10</th>
+                                                <th>expenses_13</th>
+                                                <th>expenses_14</th>
+                                                <th>expenses_16</th>
+                                                <th>specialdisc</th>
+                                                @* --------------------- *@
+                                                <th>expenses_1</th>
+                                                <th>expenses_18</th>
+                                                <th>expenses_6</th>
+                                                <th>expenses_7</th>
+                                                <th>expenses_11</th>
+                                                <th>expenses_12</th>
+                                                <th>expenses_15</th>
+                                                <th>expenses_Perton</th>
+                                                <th>remark2</th>
+                                                @* --------------------- *@
+                                                <th>priceper_Ton</th>
+                                                <th>taxItem_Group</th>
+                                                <th>total_Sales</th>
+                                                <th>costper_Ton</th>
+                                                <th>total_Cost_Sales</th>
+                                                <th>margin_Ton</th>
+                                                <th>total_Margin</th>
+                                                <th>margin_Percen</th>
+                                                @* --------------------- *@
+                                                <th>credit_limit</th>
+                                                @* ------Colum Hidde----- *@
+
+                                                <th>Assign To</th>
+                                                <th>Customer Account</th>
+                                                <th>Customer Name</th>
+                                                <th>Item Number</th>
+                                                <th>Formula V.</th>
+                                                <th>Quantity</th>
+                                                <th>Type</th>
+                                                <th>Status</th>
+                                                <th>Version</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card-body -->
+                    <div class="card-footer">
+                    
+                    </div>
+                </div>
+            </div>
+
+        
+            <!-- /.row -->
+        </div>
+    </div>
+    <!-- /.container-fluid -->
+</section>
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card ">
+                    @*  <div class="card-header" style="background:#61AFFE;">
+                    <h3 class="card-title">SALES FORECAST LISTS :</h3>
+                    </div> *@
+                    <!-- /.card-header -->
+                    <div class="col-12">
+                        @* <div class="card card-primary card-outline card-tabs"> *@
+                        <div class="card ">
+                            <div class="card-header p-0 pt-1 border-bottom-0">
+                                <ul class="nav nav-tabs" id="custom-tabs-three-tab" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" id="custom-tabs-three-home-tab" data-toggle="pill" href="#custom-tabs-three-home" role="tab" aria-controls="custom-tabs-three-home" aria-selected="true">OVERVIEW</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="custom-tabs-three-profile-tab" data-toggle="pill" href="#custom-tabs-three-profile" role="tab" aria-controls="custom-tabs-three-profile" aria-selected="false">FORMMULA</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="custom-tabs-three-messages-tab" data-toggle="pill" href="#custom-tabs-three-messages" role="tab" aria-controls="custom-tabs-three-messages" aria-selected="false">COST MAGIN</a>
+                                    </li>
+
+                                </ul>
+                            </div>
+                            <div class="card-body">
+                                <div class="tab-content" id="custom-tabs-three-tabContent">
+                                    @* From Over View *@
+                                    <div class="tab-pane fade active show" id="custom-tabs-three-home" role="tabpanel" aria-labelledby="custom-tabs-three-home-tab">
+                                        <h6>CUSTOMER CREDIT</h6>
+                                        <div class="col-md-6">
+                                            <div class="card-body">
+                                                <form>
+                                                    <div class="row">
+                                                        <div class="input-group-prepend related-Infor">
+                                                            <div class="input-group-text">Credit limit</div>
+                                                            <input type="text" class="form-control-sm" placeholder="credit_limit" id="inp_Credit_Limit" disabled>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="input-group-prepend related-Infor">
+                                                            <div class="input-group-text">Open Balance</div>
+                                                            <input type="text" class="form-control-sm" placeholder="open Balance" id="inp_Open_Balance" disabled>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="input-group-prepend related-Infor">
+                                                            <div class="input-group-text">Current order</div>
+                                                            <input type="text" class="form-control-sm" placeholder="Current_order" id="inp_Current_Order" disabled>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="input-group-prepend related-Infor">
+                                                            <div class="input-group-text">New balance</div>
+                                                            <input type="text" class="form-control-sm" placeholder="New_balance" id="inp_New_Balance" disabled>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="input-group-prepend related-Infor">
+                                                            <div class="input-group-text">Credit balance</div>
+                                                            <input type="text" class="form-control-sm" placeholder="Credit_balance" id="inp_Credit_Balance" disabled>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                    @* From Formula *@
+                                    <div class="tab-pane fade" id="custom-tabs-three-profile" role="tabpanel" aria-labelledby="custom-tabs-three-profile-tab">
+
+                                        <h6>PLANNING ITEM</h6>
+                                        <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <table id="tb_formmula" class="table table-bordered table-hover dataTable dtr-inline display nowrap" width="100%" style="text-align:center !important;">
+                                                        <thead class="thead-light" style="font-size:8px;">
+                                                            <tr role="row">
+                                                                <th>No.</th>
+                                                                <th>Formula</th>
+                                                                <th>item(1)</th>
+                                                                <th>%(1)</th>
+                                                                <th>Cost(1)</th>
+                                                                <th>PO(1)</th>
+                                                                <th>Item(2)</th>
+                                                                <th>%(2)</th>
+                                                                <th>Cost(2)</th>
+                                                                <th>PO(2)</th>
+                                                                <th>Item(3)</th>
+                                                                <th>%(3)</th>
+                                                                <th>Cost(3)</th>
+                                                                <th>PO(3)</th>
+
+                                                                <th>Total%</th>
+                                                                <th>Qty</th>
+                                                                <th>Formula Cost</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody></tbody>
+                                                        <tfoot>
+                                                        </tfoot>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- /.card-body -->
+
+
+                                    </div>
+                                    @* From Cost MAGIN *@
+                                    <div class="tab-pane fade" id="custom-tabs-three-messages" role="tabpanel" aria-labelledby="custom-tabs-three-messages-tab">
+
+                                        <div class="row">
+                                            <div class="col-sm-6" style="padding-bottom: 7.5px;">
+                                                <div class="row">
+                                                <div class="col-4">
+                                                    <h6>TRANSPORTATION TYPE</h6>
+                                                </div>
+                                                <div class="col-2">
+                                                        <select class="form-select form-select-sm" aria-label="Small select example" id="slt_Transportation_Type" style="width:180%;" disabled>
+                                           
+                                                        </select>
+                                                </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="row">
+                                                    <div class="col-4">
+                                                        <h6>TRANSPORTATION COST</h6>
+                                                    </div>
+                                                    <div class="col-2">
+                                                        <input type="text" class="form-control-sm" placeholder="COST" id="inp_Transportation_Cost" disabled>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <div class="row">
+                                                    <div class="input-group-prepend related-Infor">
+                                                        <div class="input-group-text">ค่าตักสินค่า : </div>
+                                                        <input type="text" class="form-control-sm" placeholder="expenses_5" id="inp_expenses_5" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="input-group-prepend related-Infor">
+                                                        <div class="input-group-text">ค่าทอย/ตักกอง : </div>
+                                                        <input type="text" class="form-control-sm" placeholder="expenses_9" id="inp_expenses_9" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="input-group-prepend related-Infor">
+                                                        <div class="input-group-text"><a href="#"></a>ค่าคลุก : </div>
+                                                        <input type="text" class="form-control-sm" placeholder="expenses_10" id="inp_expenses_10" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="input-group-prepend related-Infor">
+                                                        <div class="input-group-text">ค่ากรอง BIGBAH : </div>
+                                                        <input type="text" class="form-control-sm" placeholder="expenses_13" id="inp_expenses_13" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="input-group-prepend related-Infor">
+                                                        <div class="input-group-text">ค่ากำจัดขี้เถ้า : </div>
+                                                        <input type="text" class="form-control-sm" placeholder="expenses_14" id="inp_expenses_14" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="input-group-prepend related-Infor">
+                                                        <div class="input-group-text">SURVEYOR TEST : </div>
+                                                        <input type="text" class="form-control-sm" placeholder="expenses_16" id="inp_expenses_16" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="input-group-prepend related-Infor">
+                                                        <div class="input-group-text">SPECIAL DISCOUNT : </div>
+                                                        <input type="text" class="form-control-sm" placeholder="SpecialDisc" id="inp_SpecialDisc" disabled>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="row">
+                                                    <div class="input-group-prepend related-Infor">
+                                                        <div class="input-group-text">ค่าเผื่อเคลม : </div>
+                                                        <input type="text" class="form-control-sm" placeholder="expenses_1" id="inp_expenses_1" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="input-group-prepend related-Infor">
+                                                        <div class="input-group-text">COMMISSION (EXTERNAL) : </div>
+                                                        <input type="text" class="form-control-sm" placeholder="expenses_18" id="inp_expenses_18" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="input-group-prepend related-Infor">
+                                                        <div class="input-group-text">OPERATION COST : </div>
+                                                        <input type="text" class="form-control-sm" placeholder="expenses_6" id="inp_expenses_6" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="input-group-prepend related-Infor">
+                                                        <div class="input-group-text">SG & A : </div>
+                                                        <input type="text" class="form-control-sm" placeholder="expenses_7" id="inp_expenses_7" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="input-group-prepend related-Infor">
+                                                        <div class="input-group-text">ดอกเบี้ย : </div>
+                                                        <input type="text" class="form-control-sm" placeholder="expenses_11" id="inp_expenses_11" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="input-group-prepend related-Infor">
+                                                        <div class="input-group-text">ค่าทดคืน : </div>
+                                                        <input type="text" class="form-control-sm" placeholder="expenses_12" id="inp_expenses_12" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="input-group-prepend related-Infor">
+                                                        <div class="input-group-text">ค่าใช้จ่ายอื่น ๆ : </div>
+                                                        <input type="text" class="form-control-sm" placeholder="expenses_15" id="inp_expenses_15" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="input-group-prepend related-Infor">
+                                                        <div class="input-group-text">ค่าใช้จ่าย / หน่วย : </div>
+                                                        <input type="text" class="form-control-sm" placeholder="expenses_Perton" id="inp_expenses_Perton" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="input-group-prepend related-Infor">
+                                                        <div class="input-group-text"><b>Remark : </b></div>
+                                                        <input type="text" class="form-control-sm" placeholder="remark2" id="inp_remark2" disabled>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="row">
+                                                    <div class="input-group-prepend related-Infor">
+                                                        <div class="input-group-text">ราคาขาย / หน่วย : </div>
+                                                        <input type="text" class="form-control-sm" placeholder="priceper_Ton" id="inp_priceper_Ton" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="input-group-prepend related-Infor">
+                                                        <div class="input-group-text">ITEM SALES TAX GR : </div>
+                                                        <input type="text" class="form-control-sm" placeholder="taxItem_Group" id="inp_taxItem_Group" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="input-group-prepend related-Infor">
+                                                        <div class="input-group-text">ราคาขายรวม : </div>
+                                                        <input type="text" class="form-control-sm" placeholder="total_Sales" id="inp_total_Sales" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="input-group-prepend related-Infor">
+                                                        <div class="input-group-text">ต้นทุนขาย / หน่วย : </div>
+                                                        <input type="text" class="form-control-sm" placeholder="costper_Ton" id="inp_costper_Ton" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="input-group-prepend related-Infor">
+                                                        <div class="input-group-text">ต้นทุนขายรวม : </div>
+                                                        <input type="text" class="form-control-sm" placeholder="total_Cost_Sales" id="inp_total_Cost_Sales" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="input-group-prepend related-Infor">
+                                                        <div class="input-group-text">กำไร(ขาดทุน) / หน่วย : </div>
+                                                        <input type="text" class="form-control-sm" placeholder="margin_Ton" id="inp_margin_Ton" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="input-group-prepend related-Infor">
+                                                        <div class="input-group-text">กำไร(ขาดทุน) รวม </div>
+                                                        <input type="text" class="form-control-sm" placeholder="total_Margin" id="inp_total_Margin" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="input-group-prepend related-Infor">
+                                                        <div class="input-group-text">กำไร / ราคาขาย (%) : </div>
+                                                        <input type="text" class="form-control-sm" placeholder="margin_Percen" id="inp_margin_Percen" disabled>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+        </div>
+    </div>
+    <!-- /.container-fluid -->
+</section>
+<script>
+
+    
+    $(document).ready(function () {
+        //Variable localstorage
+        let user_Id = localStorage.getItem("user_Id");
+        let _class = localStorage.getItem("_class");
+        let company = localStorage.getItem("company");
+        var month_Year = localStorage.getItem("month_Year");
+        let foreCast_Id = localStorage.getItem("foreCast_user_Id");
+        let token_Request = localStorage.getItem("Token");
+        //Team All & 1 Item
+        var txt_pesponsible = localStorage.getItem("txt_pesponsible");
+        //Variable Text 
+        var quotation_No = document.getElementById('#quotation_No');
+
+        document.getElementById("nav_bar_page").innerHTML = "SALES FORECAST DETAILS";
+
+        if (user_Id == null) {
+            location.assign('@Url.Action("Login", "Home")');
+        }
+
+        var myTable_Details = $('#tb_sales_forecast_list').DataTable({
+            "bDestroy": true,
+            "scrollY": true,
+            "scrollX": true,
+            "searching": true,
+            "lengthChange": true,
+            "paging": true,
+            "info": true,
+            "ordering": true,
+          
+            "ajax": {
+                "url": "https://localhost:7221/api/Sales_Forecast_Details/Sales_Forcast_List",
+                "method": "GET",
+                "dataType": "json",
+                "headers": {
+                    'Authorization': 'Bearer ' + token_Request
+                },
+                "data": { salesRespon_recid: txt_pesponsible, user_Id: user_Id, _class: _class, company: company, foreCast_user_Id: foreCast_Id, month_Year: month_Year }
+            },
+            "columns": [
+                //#region --> Hide Column To From Data Change 0 - 26
+                // -------------------------------(0-9)
+                { data: "quotationID" },
+                { data: "transportaTion_Type" },
+                { data: "expenses_2" },
+                { data: "expenses_5" },
+                { data: "expenses_9" },
+                { data: "expenses_10" },
+                { data: "expenses_13" },
+                { data: "expenses_14" },
+                { data: "expenses_16" },
+                { data: "specialdisc" },
+                // -------------------------------(10-18)
+                { data: "expenses_1" },
+                { data: "expenses_18" },
+                { data: "expenses_6" },
+                { data: "expenses_7" },
+                { data: "expenses_11" },
+                { data: "expenses_12" },
+                { data: "expenses_15" },
+                { data: "expenses_Perton" },
+                { data: "remark2" },
+                // -------------------------------(19-26)
+                { data: "priceper_Ton" },
+                { data: "taxItem_Group" },
+                { data: "total_Sales" },
+                { data: "costper_Ton" },
+                { data: "total_Cost_Sales" },
+                { data: "margin_Ton" },
+                { data: "total_Margin" },
+                { data: "margin_Percen" },
+                // -------------------------------(27) Form Overview Credit
+                { data: "credit_limit" },
+                //--> Hide Column To From Data Change
+                //#endregion
+                { data: "assign_To" },
+                { data: "customer_Account" },
+                { data: "customer_Name" ,className: "dt-body-center" },
+                { data: "item_Number" },
+                { data: "formula_Version" },
+                { data: "quantity", className: "dt-body-right" },
+                { data: "quantity_Type" },
+                { data: "status" }, 
+                { data: "version" },
+            ],
+            "order": [[2, "asc"]],
+
+            //"dom": 'Bfrtip',
+            // "buttons": [
+            //     {
+            //     extend:'excel',
+            //     // class: 'btn btn-block btn-success btn-sm'
+            //         init: function (api,node,config) {
+            //             $(node).hide();
+            //         }
+               
+            //     }
+            //  ]
+                   // "dom": 'Bfrtip',
+            //"buttons": ["csv", "excel", "pdf", "print", "colvis"]
+            // "fnDrawCallback": function (oSettings) {
+            // },
+            // "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+        });
+     
+        //#region Hide Coiumn
+        myTable_Details.columns([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27]).visible(false);
+        myTable_Details.columns.adjust().draw();
+       //#endregion
+        $('#tb_sales_forecast_list tbody').on('click', 'tr', function () {
+          //#region Get Variable Data Row Table
+            var quotation_ID = myTable_Details.row(this).data().quotationID;
+            var expenses_2 = myTable_Details.row(this).data().expenses_2;
+            var expenses_5 = myTable_Details.row(this).data().expenses_5;
+            var expenses_9 = myTable_Details.row(this).data().expenses_9;
+            var expenses_10 = myTable_Details.row(this).data().expenses_10;
+            var expenses_13 = myTable_Details.row(this).data().expenses_13;
+            var expenses_14 = myTable_Details.row(this).data().expenses_14;
+            var expenses_16 = myTable_Details.row(this).data().expenses_16;
+            var specialdisc = myTable_Details.row(this).data().specialdisc;
+            // ------------------------------------------------------------
+            var expenses_1 = myTable_Details.row(this).data().expenses_1;
+            var expenses_18 = myTable_Details.row(this).data().expenses_18;
+            var expenses_6 = myTable_Details.row(this).data().expenses_6;
+            var expenses_7 = myTable_Details.row(this).data().expenses_7;
+            var expenses_11 = myTable_Details.row(this).data().expenses_11;
+            var expenses_12 = myTable_Details.row(this).data().expenses_12;
+            var expenses_15 = myTable_Details.row(this).data().expenses_15;
+            var expenses_Perton = myTable_Details.row(this).data().expenses_Perton;
+            var remark2 = myTable_Details.row(this).data().remark2;
+            // ------------------------------------------------------------
+            var priceper_Ton = myTable_Details.row(this).data().priceper_Ton;
+            var taxItem_Group = myTable_Details.row(this).data().taxItem_Group;
+            var total_Sales = myTable_Details.row(this).data().total_Sales;
+            var costper_Ton = myTable_Details.row(this).data().costper_Ton;
+            var total_Cost_Sales = myTable_Details.row(this).data().total_Cost_Sales;
+            var margin_Ton = myTable_Details.row(this).data().margin_Ton;
+            var total_Margin = myTable_Details.row(this).data().total_Margin;
+            var margin_Percen = myTable_Details.row(this).data().margin_Percen;
+            var credit_limit = myTable_Details.row(this).data().credit_limit;
+            //#endregion
+            console.log("quotation_ID", quotation_ID);
+            if (quotation_ID != "") {
+                $.ajax({
+                    type: "GET",
+                    dataType: "json",
+                    url: 'https://localhost:7221/api/Sales_Forecast_Details/Sales_Forcast_Related_Info',
+                    headers: {
+                        'Authorization': 'Bearer ' + token_Request
+                    },
+                    data: {
+                        quotation_ID: quotation_ID
+                    },
+                    success: function (data) {
+                        //console.log(data.data);
+                        if (data.data == 'NG') {
+                            $('#quotation_No').val("-");
+                            $('#salesOrder_Status').val("-");
+                            $('#salesOrder_No').val("-");
+                        }
+                        else {
+                            $('#quotation_No').val(data.data[0].quotationid);
+                            $('#salesOrder_No').val(data.data[0].saleS_ORDER_NO);
+                            $('#salesOrder_Status').val(data.data[0].saleS_ORDER_STATUS);
+                        }
+                        // console.log("DATA_REQUEST:", data);
+                        //alert("data Ok", data)
+                    },
+                    error: function () {
+                    }
+                });
+            }
+
+
+            //From Over View
+
+
+
+            $('#inp_Credit_Limit').val(Intl
+                .NumberFormat('th-TH', { style: 'currency', currency: 'THB' })
+                .formatToParts(credit_limit)
+                .filter(p => p.type != 'currency')
+                .reduce((s, p) => s + p.value, '')
+                .trim());
+            $('#inp_Current_Order').val(Intl
+                .NumberFormat('th-TH', { style: 'currency', currency: 'THB' })
+                .formatToParts(total_Sales)
+                .filter(p => p.type != 'currency')
+                .reduce((s, p) => s + p.value, '')
+                .trim());
+
+
+            //From Cost Magin
+            $("#slt_Transportation_Type").empty();
+            let optionHTML = '<option value="' + myTable_Details.row(this).data().transportaTion_Type + '">' + myTable_Details.row(this).data().transportaTion_Type + '</option>';
+            $('#slt_Transportation_Type').append(optionHTML);           
+            //#region From Cost Magin 1
+            $('#inp_Transportation_Cost').val(Intl
+                .NumberFormat('th-TH', { style: 'currency', currency: 'THB' })
+                .formatToParts(expenses_2)
+                .filter(p => p.type != 'currency')
+                .reduce((s, p) => s + p.value, '')
+                .trim());
+            $('#inp_expenses_5').val(Intl
+                .NumberFormat('th-TH', { style: 'currency', currency: 'THB' })
+                .formatToParts(expenses_5)
+                .filter(p => p.type != 'currency')
+                .reduce((s, p) => s + p.value, '')
+                .trim());
+            $('#inp_expenses_9').val(Intl
+                .NumberFormat('th-TH', { style: 'currency', currency: 'THB' })
+                .formatToParts(expenses_9)
+                .filter(p => p.type != 'currency')
+                .reduce((s, p) => s + p.value, '')
+                .trim());
+            $('#inp_expenses_10').val(Intl
+                .NumberFormat('th-TH', { style: 'currency', currency: 'THB' })
+                .formatToParts(expenses_10)
+                .filter(p => p.type != 'currency')
+                .reduce((s, p) => s + p.value, '')
+                .trim());
+            $('#inp_expenses_13').val(Intl
+                .NumberFormat('th-TH', { style: 'currency', currency: 'THB' })
+                .formatToParts(expenses_13)
+                .filter(p => p.type != 'currency')
+                .reduce((s, p) => s + p.value, '')
+                .trim());
+            $('#inp_expenses_14').val(Intl
+                .NumberFormat('th-TH', { style: 'currency', currency: 'THB' })
+                .formatToParts(expenses_14)
+                .filter(p => p.type != 'currency')
+                .reduce((s, p) => s + p.value, '')
+                .trim());
+            $('#inp_expenses_16').val(Intl
+                .NumberFormat('th-TH', { style: 'currency', currency: 'THB' })
+                .formatToParts(expenses_16)
+                .filter(p => p.type != 'currency')
+                .reduce((s, p) => s + p.value, '')
+                .trim());
+            $('#inp_SpecialDisc').val(Intl
+                .NumberFormat('th-TH', { style: 'currency', currency: 'THB' })
+                .formatToParts(specialdisc)
+                .filter(p => p.type != 'currency')
+                .reduce((s, p) => s + p.value, '')
+                .trim());
+      //#endregion
+            //#region From Cost Magin 2
+            $('#inp_expenses_1').val(Intl
+                .NumberFormat('th-TH', { style: 'currency', currency: 'THB' })
+                .formatToParts(expenses_1)
+                .filter(p => p.type != 'currency')
+                .reduce((s, p) => s + p.value, '')
+                .trim());
+            $('#inp_expenses_18').val(Intl
+                .NumberFormat('th-TH', { style: 'currency', currency: 'THB' })
+                .formatToParts(expenses_18)
+                .filter(p => p.type != 'currency')
+                .reduce((s, p) => s + p.value, '')
+                .trim());
+            $('#inp_expenses_6').val(Intl
+                .NumberFormat('th-TH', { style: 'currency', currency: 'THB' })
+                .formatToParts(expenses_6)
+                .filter(p => p.type != 'currency')
+                .reduce((s, p) => s + p.value, '')
+                .trim());
+            $('#inp_expenses_7').val(Intl
+                .NumberFormat('th-TH', { style: 'currency', currency: 'THB' })
+                .formatToParts(expenses_7)
+                .filter(p => p.type != 'currency')
+                .reduce((s, p) => s + p.value, '')
+                .trim());
+            $('#inp_expenses_11').val(Intl
+                .NumberFormat('th-TH', { style: 'currency', currency: 'THB' })
+                .formatToParts(expenses_11)
+                .filter(p => p.type != 'currency')
+                .reduce((s, p) => s + p.value, '')
+                .trim());
+                $('#inp_expenses_12').val(Intl
+                .NumberFormat('th-TH', { style: 'currency', currency: 'THB' })
+                .formatToParts(expenses_12)
+                .filter(p => p.type != 'currency')
+                .reduce((s, p) => s + p.value, '')
+                .trim());
+            $('#inp_expenses_15').val(Intl
+                .NumberFormat('th-TH', { style: 'currency', currency: 'THB' })
+                .formatToParts(expenses_15)
+                .filter(p => p.type != 'currency')
+                .reduce((s, p) => s + p.value, '')
+                .trim());
+            $('#inp_expenses_Perton').val(Intl
+                .NumberFormat('th-TH', { style: 'currency', currency: 'THB' })
+                .formatToParts(expenses_Perton)
+                .filter(p => p.type != 'currency')
+                .reduce((s, p) => s + p.value, '')
+                .trim());
+            $('#inp_remark2').val(remark2);
+            //#endregion
+            //#region From Cost Magin 3
+            $('#inp_priceper_Ton').val(Intl
+                .NumberFormat('th-TH', { style: 'currency', currency: 'THB' })
+                .formatToParts(priceper_Ton)
+                .filter(p => p.type != 'currency')
+                .reduce((s, p) => s + p.value, '')
+                .trim());
+            $('#inp_taxItem_Group').val(taxItem_Group);
+
+            $('#inp_total_Sales').val(Intl
+                .NumberFormat('th-TH', { style: 'currency', currency: 'THB' })
+                .formatToParts(total_Sales)
+                .filter(p => p.type != 'currency')
+                .reduce((s, p) => s + p.value, '')
+                .trim());
+         
+            $('#inp_costper_Ton').val(Intl
+                .NumberFormat('th-TH', { style: 'currency', currency: 'THB' })
+                .formatToParts(costper_Ton)
+                .filter(p => p.type != 'currency')
+                .reduce((s, p) => s + p.value, '')
+                .trim());
+            $('#inp_total_Cost_Sales').val(Intl
+                .NumberFormat('th-TH', { style: 'currency', currency: 'THB' })
+                .formatToParts(total_Cost_Sales)
+                .filter(p => p.type != 'currency')
+                .reduce((s, p) => s + p.value, '')
+                .trim());
+            $('#inp_margin_Ton').val(Intl
+                .NumberFormat('th-TH', { style: 'currency', currency: 'THB' })
+                .formatToParts(margin_Ton)
+                .filter(p => p.type != 'currency')
+                .reduce((s, p) => s + p.value, '')
+                .trim());
+            $('#inp_total_Margin').val(Intl
+                .NumberFormat('th-TH', { style: 'currency', currency: 'THB' })
+                .formatToParts(total_Margin)
+                .filter(p => p.type != 'currency')
+                .reduce((s, p) => s + p.value, '')
+                .trim());
+            $('#inp_margin_Percen').val(Intl
+                .NumberFormat('th-TH', { style: 'currency', currency: 'THB' })
+                .formatToParts(margin_Percen)
+                .filter(p => p.type != 'currency')
+                .reduce((s, p) => s + p.value, '')
+                .trim());
+            //#endregion
+        });
+
+        //Even Add Color in Row 
+        $('#tb_sales_forecast_list').on('click', 'tr', function () {
+            var data = myTable_Details.row(this).data();
+            // below some operations with the data
+            // How can I set the row color as red?
+            $(this).addClass('highlight').siblings().removeClass('highlight');
+        });
+        $('#tb_sales_forecast_list').on('draw.dt', function () {
+            $(this).find('.highlight').removeClass('highlight');
+        });
+
+       
+        
+    });
+
+
+</script>
+

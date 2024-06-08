@@ -1,0 +1,304 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fill Date Sales Forecast</title>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+          /*   display: flex;
+            justify-content: center; */
+            align-items: center;
+            height: 60vh;
+        }
+
+        .title-bar{
+            color: black;
+            display: block;
+            /*border-radius: 8px;*/
+            background: #686D76;
+            background: -webkit-gradient(linear,left top,left bottom,color-stop(#153448,0),color-stop(#074173,1));
+            background: -webkit-linear-gradient(top, #7BC9FF 0%, #EEEEEE 100%);
+            background: -moz-linear-gradient(top, #7BC9FF 0%, #EEF7FF 100%);
+            background: -o-linear-gradient(top, #B6FFFA 0%, #80B3FF 100%);
+            background: linear-gradient(top, #98E4FF 0%, #FFEED9 100%);
+            font-size:40px;
+        }
+        h2 {
+            text-align: center;
+            margin: 10px;
+        }
+        .container {
+           /*  background-color: #fff;
+            border-radius: 8px;
+            padding: 40px;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1); */
+            width: 20%;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 50px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+         /*    .form-group > div {
+                display: inline-block;
+            } */
+
+            .form-group label {
+                display: block;
+                margin-bottom: 5px;
+                font-weight: bold;
+            }
+            
+            .form-group input {
+                width: 93%;
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+
+            .form-group select {
+                width: 100%;
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+
+                .form-group input[type="submit"] {
+                    width: auto;
+                    padding: 10px 20px;
+                    background-color: #007bff;
+                    color: #fff;
+                    border: none;
+                    border-radius: 10px;
+                    cursor: pointer;
+                    margin-right:1px;
+                }
+
+            .form-group input[type="reset"] {
+                width: auto;
+                padding: 10px 20px;
+                background-color: #FF6868;
+                color: #fff;
+                border: none;
+                border-radius: 10px;
+                cursor: pointer;
+                margin-right: 1px;
+            }
+
+                    .form-group input[type="submit"]:hover {
+                background-color: #5FBDFF;
+                transition: background-color 0.8s ease;
+                    }
+
+            .form-group input[type="reset"]:hover {
+                background-color: #FFA5A5;
+                transition: background-color 0.8s ease;
+                    }
+
+            .form-group p {
+                margin-top: 5px;
+                font-size: 14px;
+                color: #777;
+            }
+
+        li.select2-results__option:hover{
+            background-color: #1967D2;
+            color:azure;
+            transition: background-color 0.5s ease;
+        }
+
+        @@media screen and (max-width: 1024px) {
+            .container {
+                width: 30%;
+            }
+        }
+    </style>
+</head>
+
+<body oncontextmenu="return false;">
+
+    <nav class="navbar navbar-default title-bar">
+        <div class="container-fluid">
+            <div class="navbar-header" style="text-align:center;">
+                SALES FORECAST
+            </div>
+        </div>
+    </nav>
+   
+
+    <div class="container">
+    
+        <h2>Hello, @Context.Session.GetString("UserName")</h2>
+        <h2>ระบุวันที่ สำหรับการบันทึก</h2>
+        <h2>SALES FORECAST</h2>
+        <div class="form-group">
+         @*    <div>
+                <label>เดือน / MONTH</label>
+                <input type="month" id="name" name="name">
+            </div> *@
+
+         @*    <div>
+                <label>ปี / YEAR</label>
+                <input type="text" id="name" name="name">
+            </div> *@
+            <label>MONTH / YEAR </label>
+            <input type="month" id="txt_month_year" data-month="" data-date-format="DD MMMM YYYY">
+
+        </div>
+        <div class="form-group">
+            <label>SALES RESPONSIBLE</label>
+            @* <select id="txt_pesponsible" class="js-example-basic-single"> *@
+            <select id="txt_pesponsible" class="js-example-basic-single">
+            </select>
+         
+        </div>
+        <div class="form-group" style="float:right;">
+            <input type="submit" value="OK" id="btn_ok">
+            <input type="reset" class="btn-danger"value="CANCEL" id="btn_cancel">
+        </div>
+
+    </div>
+</body>
+</html>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/plugins/select2/js/select2.min.js"></script>
+<script>
+    const d = new Date(),
+        month = d.getMonth() < 9 ? '0' + (d.getMonth() + 1) : '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+    const _mount = year + "-" + month;
+    const monthControl = document.querySelector('input[type="month"]');
+    monthControl.value = _mount;
+    //valiable -> input
+    var txt_month_year = document.getElementById("txt_month_year").value;
+    var txt_pesponsible = document.getElementById("txt_pesponsible").value;
+    //localStorage
+    let user_Id = localStorage.getItem("user_Id");
+    let _class = localStorage.getItem("_class");
+    let company = localStorage.getItem("company");
+    let foreCast_user_Id = localStorage.getItem("foreCast_user_Id");
+    let token_Request = localStorage.getItem("Token");
+   
+    $(document).ready(function () {
+        var arrRecid = [];
+        var timeOut;
+        Check_TimeOut();
+        //document.addEventListener("click", TimeOut());
+        document.body.onclick = function () {
+            clearTimeout(timeOut)
+            Check_TimeOut();
+        }
+        function Check_TimeOut() {
+            timeOut = setTimeout(() => {
+                location.assign('@Url.Action("Login", "Home")');
+            }, 180000);
+        }
+        if (user_Id == null) {
+            location.assign('@Url.Action("Login", "Home")');
+        }
+        // Get Data SalesResponsibli
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: 'https://localhost:7221/api/Form_Fill_Date/Form_Fill_Date',
+            headers: {
+                'Authorization': 'Bearer ' + token_Request
+            },
+            data: {
+
+                user_Id: user_Id,
+                _class: _class,
+                company: company,
+                foreCast_user_Id: foreCast_user_Id
+            },
+            success: function (data) {
+                console.log("Opject_DAta:", data);
+                if (data != null) {
+                    // let recid = data.data.recid;
+                    // for (let j = 0; j < recid.length; j++ )
+                    if (_class == "Officer") {
+
+
+
+                        $("#txt_pesponsible").empty();
+                        //$("#txt_pesponsible").append('<option value="">--Please choose an Pesponsible--</option>');
+                        let myselect = $('<select>');
+
+                        let items = data.data;
+                        for (var i = 0; i < items.length; i++) {
+                            myselect.append($('<option></option>').val(items[i].recid).html(items[i].salesName));
+                            //arrRecid.empty();
+
+                        }
+                        $('#txt_pesponsible').append(myselect.html());
+                        $('#txt_pesponsible').prop('disabled', true);
+
+                    }
+                    else {
+
+                        $("#txt_pesponsible").empty();
+                        //$("#txt_pesponsible").append('<option value="">--Please choose an Pesponsible--</option>');
+                        let myselect = $('<select><option value="All">All</option>');
+
+                        let items = data.data;
+                        for (var i = 0; i < items.length; i++) {
+                            myselect.append($('<option></option>').val(items[i].recid).html(items[i].salesName));
+                            //delete arrRecid;
+                            //arrRecid.push(items[i].recid.toString());
+
+                        }
+                        $('#txt_pesponsible').append(myselect.html());
+
+
+                    }
+                    //console.log("arrRecid : ", arrRecid)
+                    $("#txt_pesponsible").select2();
+
+                }
+            },
+            error: function () {
+            }
+        });
+        // Post Data FromFillDate To DashBoard
+        $("#btn_ok").on("click", function () {
+            if (monthControl.value != "") {
+                localStorage.setItem("month_Year", monthControl.value);
+                localStorage.setItem("txt_pesponsible", $('#txt_pesponsible').val());
+                location.assign('@Url.Action("SalesForeCasst_Dashboard", "Home")');
+                return;
+            }
+        });
+        $('#btn_cancel').on("click", function () {
+            $.ajax({ 
+                type: "GET",
+                dataType: "json",
+                url: '@Url.Action("LogOut", "Home")',
+                data: {},
+                success: function () {
+                    location.assign('@Url.Action("Login", "Home")');
+                },
+                Error: function () {
+                    location.assign('@Url.Action("Login", "Home")');
+                }
+            });
+        });
+    });
+    
+</script>

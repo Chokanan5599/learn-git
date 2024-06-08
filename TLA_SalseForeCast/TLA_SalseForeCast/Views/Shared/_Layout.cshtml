@@ -1,0 +1,337 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - SalseForeCast</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/TLA_SalseForeCast.styles.css" asp-append-version="true" />
+
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link href="~/plugins/fontawesome-free/css/all.min.css" rel="stylesheet" />
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Tempusdominus Bootstrap 4 -->
+    <link href="~/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+    <!-- iCheck -->
+    <link href="~/plugins/icheck-bootstrap/icheck-bootstrap.min.css" rel="stylesheet" />
+    <!-- Theme style -->
+    <link href="~/dist/css/adminlte.min.css" rel="stylesheet" />
+    <!-- overlayScrollbars -->
+    <link href="~/plugins/overlayscrollbars/css/overlayscrollbars.min.css" rel="stylesheet" />
+    <!-- Daterange picker -->
+    <link href="~/plugins/daterangepicker/daterangepicker.css" rel="stylesheet" />
+    <!-- summernote -->
+    <link href="~/plugins/summernote/summernote-bs4.min.css" rel="stylesheet" />
+    <style>
+        #lis_1:hover {
+            background-color: #1F4068;
+            border-radius: 2.5px;
+            transition: background-color 1s ease;
+        }
+
+        #lis_2:hover {
+            background-color: #1F4068;
+            border-radius: 2.5px;
+            transition: background-color 1s ease;
+        }
+
+        #lis_3:hover {
+            background-color: #1F4068;
+            border-radius: 2.5px;
+            transition: background-color 1s ease;
+        }
+
+        [class*=sidebar-dark] .sidebar-custom {
+            border-top: 1px solid #dedede;
+        }
+
+        [class*=sidebar-dark] .brand-link {
+            border-top: 1px solid #dedede;
+            border-bottom: 1px solid #dedede;
+        }
+
+        [class*=sidebar-dark-] .sidebar a {
+            /* color: #6C757D; */
+            /* background-color:red; */
+            background: #FFFFFF;
+/*             background: -webkit-gradient(linear,left top,left bottom,color-stop(#FCAEAE,0),color-stop(#96c56f,1));
+            background: -webkit-linear-gradient(top, #7BC9FF 0%, #EEF5FF 100%);
+            background: -moz-linear-gradient(top, #7BC9FF 0%, #EEF5FF 100%);
+            background: -o-linear-gradient(top, #B6FFFA 0%, #80B3FF 100%);
+            background: linear-gradient(top, #98E4FF 0%, #FFEED9 100%); */
+        }
+
+        .flex-navbar{
+            width:100%;
+            display: flex;
+            flex-wrap: nowrap;
+
+            display: inline-flex;
+            justify-content: space-between;
+            /* background-color: DodgerBlue; */
+        }
+        .parameter_Fordate_Navbar{
+            font-size: 15px;
+           
+            display: block;
+            border-radius: 8px;
+            background: #EEF5FF;
+        }
+
+        .parameter_Fordate_Navbar :hover{
+            color:white;
+                background: #222831;
+                border-radius: 8px;
+                transition: background-color 0.5s ease;
+                /* color: orangered; */
+        }
+
+        .flex-navbar > ul:hover {
+            color:white;
+        }
+    </style>
+</head>
+@* <body class="hold-transition sidebar-mini layout-fixed"> *@
+<body class="sidebar-mini layout-fixed sidebar-collapse" id="main_body">
+    <div class="wrapper">
+        <!-- Navbar -->
+        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+            <!-- Left navbar links -->
+            <ul class="navbar-nav">
+                <li class="nav-item" id="nav_bar_btn_Sidebar">
+
+                </li>
+
+            </ul>
+            <div class="flex-navbar">
+                
+                <ul class="navbar-nav" >
+                    <li class="nav-item d-none d-sm-inline-block">
+                        <a href="#" class="nav-link" id="nav_bar_page">-</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav parameter_Fordate_Navbar">
+                    <li class="nav-item d-none d-sm-inline-block">
+                        <a class="nav-link " id="nav_bar_inp_Month_Year" style="color:black;"></a>
+                    </li>
+                </ul>
+
+                @* <ul class="navbar-nav ml-auto"> *@
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+
+                        <a class="btn btn-outline-light pos-right" href="@Url.Action("Login", "Home")" style="color:darkgray;">
+                            @Context.Session.GetString("first_name")-@Context.Session.GetString("last_name")
+                            <i class="fas fa-user-circle"></i>
+
+                            <i class="fas fa-sign-out-alt" style='font-size:15px;color:orange;'></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+          
+        </nav>
+        <!-- Main Sidebar Container -->
+        <aside class="main-sidebar main-sidebar-custom sidebar-dark-primary elevation-4" style="background-color:white;">
+            <!-- Brand Logo -->
+            <a href="#" class="brand-link">
+                <img src="~/dist/img/i-con_Forecast.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+                <span class="brand-text font-weight-light" style="color:#FFBD59"><b>SALES FORECAST</b></span>
+            </a>
+
+            <!-- Sidebar -->
+            <div class="sidebar os-host os-theme-light os-host-overflow os-host-overflow-y os-host-resize-disabled os-host-scrollbar-horizontal-hidden os-host-transition">
+                <div class="os-resize-observer-host observed">
+                    <div class="os-resize-observer" style="left: 0px; right: auto;">
+                    </div>
+                </div>
+                <div class="os-size-auto-observer observed" style="height: calc(100% + 1px); float: left;">
+                    <div class="os-resize-observer"></div>
+                </div>
+                <div class="os-content-glue" style="margin: 0px -8px; width: 249px; height: 658px;">
+                </div>
+                <div class="os-padding">
+                    <div class="os-viewport os-viewport-native-scrollbars-invisible" style="overflow-y: scroll;">
+                        <div class="os-content" style="padding: 0px 8px; height: 100%; width: 100%;">
+                            <!-- Sidebar Menu -->
+                            <nav class="mt-2">
+                                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                                    <li class="nav-header">LIST MENU</li>
+                                    <li class="nav-item" id="lis_1">
+                                        <a href="@Url.Action("SalesForeCasst_Dashboard","Home")" class="nav-link">
+                                            <i class="nav-icon fas fa-tachometer-alt" style="color:black"></i>
+                                            <p style="color:black">
+                                                DASHBOARD
+                                                <span class="badge badge-info right">2</span>
+                                            </p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item" id="lis_2">
+                                        <a href="@Url.Action("SalesForeCasst_Detail","Home")" class="nav-link">
+                                            <i class="nav-icon fas fa-edit" style="color:black"></i>
+                                            <p style="color:black">
+                                                DETAILS
+                                                <span class="right badge badge-danger">New</span>
+                                            </p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item" id="lis_3">
+                                        <a href="@Url.Action("SalesForeCasst_Customer_List","Home")" class="nav-link">
+                                            <i class="nav-icon fas fa-th" style="color:black"></i>
+                                            <p style="color:black">
+                                                CUSTOMER LISTS
+                                                <span class="right badge badge-danger">New</span>
+                                            </p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+                <div class="os-scrollbar os-scrollbar-horizontal os-scrollbar-unusable os-scrollbar-auto-hidden">
+                    <div class="os-scrollbar-track">
+                        <div class="os-scrollbar-handle" style="width: 100%; transform: translate(0px, 0px);">
+                        </div>
+                    </div>
+                </div>
+                <div class="os-scrollbar os-scrollbar-vertical os-scrollbar-auto-hidden">
+                    <div class="os-scrollbar-track">
+                        <div class="os-scrollbar-handle" style="height: 41.8413%; transform: translate(0px, 0px);">
+                        </div>
+                    </div>
+                </div>
+                <div class="os-scrollbar-corner">
+                </div>
+            </div>
+            <!-- /.sidebar -->
+
+            <div class="sidebar-custom">
+                <a href="#" class="btn btn-link">
+                    @* <i class="fas fa-user-circle" style='font-size:36px;color:aliceblue;'> *@
+                    <i class="fas fa-user-circle" style='font-size:36px;'>
+                    </i>
+                </a>
+                <a style="color:darkgray;">@Context.Session.GetString("first_name")</a>
+                <a href="@Url.Action("Login", "Home")" class="btn btn-outline-light pos-right">
+                    <i class="fas fa-sign-out-alt" style='font-size:20px;color:orange;'></i>
+                </a>
+            </div>
+            <!-- /.sidebar-custom -->
+        </aside>
+    </div>
+    <div class="content-wrapper">
+     
+        @* Jquery *@
+        <script src="~/plugins/jquery/jquery.min.js"></script>
+        @* <script src="~/lib/jquery/dist/jquery.min.js"></script> *@
+       
+        @* Bootstrap *@
+        <script src="~/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  
+        @* DataTable *@
+        <script src="~/plugins/datatables/jquery.datatables.min.js"></script>
+        <script src="~/plugins/datatables-bs4/js/datatables.bootstrap4.min.js"></script>
+        <script src="~/plugins/datatables-responsive/js/datatables.responsive.min.js"></script>
+        <script src="~/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+        <script src="~/plugins/datatables-buttons/js/datatables.buttons.min.js"></script>
+        <script src="~/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+        <script src="~/plugins/jszip/jszip.min.js"></script>
+        <script src="~/plugins/pdfmake/pdfmake.min.js"></script>
+        <script src="~/plugins/pdfmake/vfs_fonts.js"></script>
+        <script src="~/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+        <script src="~/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+        <script src="~/plugins/datatables-buttons/js/buttons.colvis.min.js"></script>
+        
+        <link href="~/plugins/datatables-bs4/css/datatables.bootstrap4.min.css" rel="stylesheet" />
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+        <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.1/dist/js/adminlte.min.js"></script>
+
+
+        @* Referen  New Page Menu Form*@
+        @* <script src="~/plugins/jquery/jquery.min.js"></script> *@
+        @* <script src="~/plugins/bootstrap/js/bootstrap.bundle.min.js"></script> *@
+     @*    <script src="~/dist/js/adminlte.min.js"></script>
+        <script src="~/dist/js/demo.js"></script> *@
+
+        @* // Button Action ในตาราง *@
+        @* <script src="https://cdn.datatables.net/2.0.7/js/dataTables.js"></script> *@
+     @*    <script src="https://cdn.datatables.net/buttons/3.0.2/js/dataTables.buttons.js"></script>
+        <script src="https://cdn.datatables.net/buttons/3.0.2/js/buttons.dataTables.js"></script> *@
+
+        @* // Hide Colum Table *@
+        <link href="https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.css" rel="stylesheet" />
+
+
+        @RenderBody()
+    </div>
+    <footer class="main-footer">
+        <div class="float-right d-none d-sm-block">
+            <b>Version</b> 1.0.0
+        </div>
+        <strong>Copyright © <a href="https://www.thailandanthracite.com/">Thailand Anthracite Co. Ltd. </a> All rights reserved.</strong>
+    </footer>
+    <script>
+        var timeOut;
+        var body = document.body, html = document.documentElement;
+
+        $(document).ready(function () {
+
+            Check_TimeOut();
+            document.body.onclick = function () {
+                clearTimeout(timeOut);
+                Check_TimeOut();
+            }
+            function Check_TimeOut() {
+                //alert("Start Time Out")
+                timeOut = setTimeout(() => {
+                    location.assign('@Url.Action("Login", "Home")');
+                }, 1200000);
+            }
+            if (html.scrollHeight > 1000 || html.scrollWidth < 992) {
+
+                document.getElementById("nav_bar_btn_Sidebar").innerHTML = "<a class='nav-link' id = 'btn_pushmenu' data-widget='pushmenu' href = '#' role='button'><i class='fas fa-bars'></i></a>";
+            }
+            else {
+                document.getElementById("nav_bar_btn_Sidebar").innerHTML.remove;
+            }
+
+        });
+        const date = new Date(localStorage.getItem("month_Year"));
+        const formattedDate = date.toLocaleDateString('en-GB', {
+            day: 'numeric', month: 'short', year: 'numeric'
+        }).replace(/ /g, '-');
+        document.getElementById("nav_bar_inp_Month_Year").innerHTML = "<b>MONTH-YEAR :" + formattedDate.substring(2, 10) + "</b>";
+        function openNav() {
+            document.getElementById("mySidenav").style.width = "350px";
+            document.getElementById("main").style.marginLeft = "350px";
+            document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
+        }
+        function closeNav() {
+            document.getElementById("mySidenav").style.width = "0";
+            document.getElementById("main").style.marginLeft = "0";
+            document.body.style.backgroundColor = "white";
+        }
+
+
+        // $('#btn_pushmenu').on('click', function () {
+
+        // var element = document.getElementById("main_body");
+        // element.classList.remove("sidebar-closed", "sidebar-collapse");
+        // element.classList.add("sidebar-open");
+
+        // var body = document.body,
+        //     html = document.documentElement;
+        // alert("Height Body:"+body.scrollHeight+ body.offsetHeight,);
+        // console.log(body.scrollHeight)
+        // })
+
+    </script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

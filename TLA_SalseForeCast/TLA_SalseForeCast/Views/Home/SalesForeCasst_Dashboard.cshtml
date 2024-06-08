@@ -1,0 +1,435 @@
+﻿
+<style>
+    .card-body input {
+        width: 100%;
+        padding: 5px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+    }
+
+    #lis_1 {
+        background-color: #0C356A;
+        border-radius: 5px;
+    }
+
+    #tb_sales_responsible {
+        font-size: 14px;
+        text-align:center !important;
+    }
+
+    #nav_bar_inp_Month_Year {
+        display: none;
+    }
+
+
+
+    .a-btn-text {
+     /*    display: block; */
+        background: #A1EEBD;
+        background: -webkit-gradient(linear,left top,left bottom,color-stop(#a9db80,0),color-stop(#96c56f,1));
+        background: -webkit-linear-gradient(top, #a9db80 0%, #96c56f 100%);
+        background: -moz-linear-gradient(top, #a9db80 0%, #96c56f 100%);
+        background: -o-linear-gradient(top, #a9db80 0%, #96c56f 100%);
+        background: linear-gradient(top, #a9db80 0%, #96c56f 100%);
+    }
+
+    @@media screen and (max-width: 1024px) {
+        #tb_sales_responsible {
+            font-size: 10px;
+        }
+    }
+    @@media screen and (max-width: 775px) {
+        #tb_sales_responsible {
+            font-size: 8px;
+        }
+    }
+
+    @@media screen and (max-width: 375px) {
+        #tb_sales_responsible {
+            font-size: 4px;
+        }
+    }
+</style>
+<section class="content" style="padding-top:15px;">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-3 col-6">
+                <div class="card" >
+                    <div class="card-header" style="background:#61AFFE;">
+                        <h3 class="card-title">Forecast ประจำเดือน / ปี</h3>
+                    </div>
+                    <div class="card-body">
+                        <label>MONTH / YEAR</label>
+                        <input type="month" class="form-control" id="inp_Month_Year" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card " >
+                    <div class="card-header" style="background:#61AFFE;">
+                        <h3 class="card-title">SALES RESPONSIBLE</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <table id="tb_sales_responsible" class="table table-bordered table-hover dataTable dtr-inline display nowrap" width="100%" >
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th>Select</th>
+                                                <th>Name</th>
+                                                <th>Quantity</th>
+                                                <th>Total Sales</th>
+                                                <th>Total Cost</th>
+                                                <th>Profit(THB)</th>
+                                                <th>Profit(%)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td colspan="2" class="a-btn-text"><b>Totals</b></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <!-- /.col -->
+            </div>
+           
+        </div>
+    </div>
+    <!-- /.container-fluid -->
+</section>
+<script>
+    //document.getElementById("nav_bar_inp_Month_Year").style.color = "white";
+    $(document).ready(function () {
+        //Variable localstorage
+        let user_Id = localStorage.getItem("user_Id");
+        let _class = localStorage.getItem("_class");
+        let company = localStorage.getItem("company");
+        var month_Year = localStorage.getItem("month_Year");
+        let foreCast_Id = localStorage.getItem("foreCast_user_Id");
+        let token_Request = localStorage.getItem("Token");
+
+        //Variable Text Input And Lable
+        document.getElementById("nav_bar_page").innerHTML = "SALES FORECAST DASHBOARD";
+        var txt_pesponsible = localStorage.getItem("txt_pesponsible");
+        let monthControl = document.querySelector('input[type="month"]');
+        monthControl.value = month_Year;
+
+        var myTable;
+
+        //Variable sum_totalSales & sum_profit_THB
+        var sum_totalSales = 0;
+        var sum_profit_THB = 0;
+        var sumDefualt = 0;
+        var sumDataSalesAll = 0;
+
+        if (user_Id == null) {
+            location.assign('@Url.Action("Login", "Home")');
+        }
+        function aoColumns() {
+            var ao = [];
+            $("#tb_sales_responsible th").each(function (i) {
+                switch (i) {
+                    case 0:
+                        ao.push({ "sWidth": "50px" });
+                        break;
+                    case 1:
+                        ao.push({ "sWidth": "100px" });
+                        break;
+                    case 2:
+                        ao.push({ "sWidth": "100px" });
+                        break;
+                    default:
+                        ao.push({ "sWidth": "25px" });
+                        break;
+                }
+            });
+            return ao;
+        }
+        myTable = $('#tb_sales_responsible').DataTable({
+        //"serverSide": true,
+        //"scrollY": 300,
+        //"scrollX": true,
+        "aoColumns": aoColumns(),
+        "pageLength": "5",
+        "scrollY": "100%",
+        "searching": false,
+        "lengthChange": false,
+        "paging": true,
+        "ajax": {
+            "url": "https://localhost:7221/api/Sales_Forecast_Dashboard/Sales_Reponsible",
+            "method": "GET",
+            "dataType": "json",
+            "headers": {
+                    'Authorization': 'Bearer ' + token_Request
+                },
+            "data": { salesRespon_recid: txt_pesponsible, user_Id: user_Id, _class: _class, company: company, foreCast_user_Id: foreCast_Id, month_Year: monthControl.value }
+        },
+        "columns": [
+            {
+            data: "workersalesresponsible",
+                        "render": function (data, type) {
+                            return "<input type='checkbox' value='" + data + "'>";
+                        }
+            },
+            { data: "full_Name" },
+            { data: "fore_cast", "render": function (data, type) {
+                       // return Intl.NumberFormat('en-IN', { style: 'currency', currency: 'THB' }).format(data);
+                        return Intl
+                            .NumberFormat('th-TH', { style: 'currency', currency: 'THB' })
+                            .formatToParts(data) // returns an array of the different parts of the amount
+                            .filter(p => p.type != 'currency') // removes the currency part
+                            .reduce((s, p) => s + p.value, '') // joins the remaining values
+                            .trim();
+                    }, className: "dt-body-right"
+            },
+            { data: "total_Sales", "render": function (data, type) {
+                        return Intl
+                            .NumberFormat('th-TH', { style: 'currency', currency: 'THB' })
+                            .formatToParts(data)
+                            .filter(p => p.type != 'currency') 
+                            .reduce((s, p) => s + p.value, '') 
+                            .trim();
+                    }, className: "dt-body-right"
+            },
+            { data: "total_CostSales", "render": function (data, type) {
+                        return Intl
+                            .NumberFormat('th-TH', { style: 'currency', currency: 'THB' })
+                            .formatToParts(data)
+                            .filter(p => p.type != 'currency')
+                            .reduce((s, p) => s + p.value, '')
+                            .trim();
+
+                    }, className: "dt-body-right"
+                },
+            { data: "total_Margin", "render": function (data, type) {
+
+                        return Intl
+                            .NumberFormat('th-TH', { style: 'currency', currency: 'THB' })
+                            .formatToParts(data)
+                            .filter(p => p.type != 'currency')
+                            .reduce((s, p) => s + p.value, '')
+                            .trim();
+                    }, className: "dt-body-right"
+            },
+            { data: "profit_Percentage", "render": function (data, type) {
+                        return Intl
+                            .NumberFormat('th-TH', { style: 'currency', currency: 'THB' })
+                            .formatToParts(data)
+                            .filter(p => p.type != 'currency')
+                            .reduce((s, p) => s + p.value, '')
+                            .trim();
+                    }, className: "dt-body-right"
+            },
+
+        ],
+        "order": [[1, "asc"]],
+        "footerCallback": function (row, data, start, end, display) {
+            var api = this.api();
+            var nb_cols = api.columns().nodes().length;
+            var j = 2;
+            while (j < nb_cols) {
+                var pageTotal = api
+                    .column(j, { page: 'current' })
+                    .data()
+                    .reduce(function (a, b) {
+                        if (j == 3) {
+                                sum_totalSales = Number(a) + Number(b);
+                            }
+                        if (j == 5) {
+                                sum_profit_THB = Number(a) + Number(b);
+                        }
+                        if (j == 6) {
+                                return (((sum_profit_THB / sum_totalSales) * 100).toFixed(2));
+                        }
+                            sumDefualt = Number(a) + Number(b);
+                        return (sumDefualt);
+                    }, 0);
+                // Update footer
+                if (j > 1) {
+                    if (j == 6) {
+                            $(api.column(j).footer()).html(pageTotal)
+                    }
+                    else {
+                            $(api.column(j).footer()).html(Intl
+                                .NumberFormat('th-TH', { style: 'currency', currency: 'THB' })
+                                .formatToParts(sumDefualt)
+                                .filter(p => p.type != 'currency')
+                                .reduce((s, p) => s + p.value, '')
+                                .trim());
+                    }
+                }
+              j++;
+                }
+        },
+        // "drawCallback": function (settings) {
+        //     // Here the response
+        //     var response = settings.json;
+        //     console.log(response);
+        // },
+    });
+        $('#inp_Month_Year').on('change', function () {
+            localStorage.removeItem("month_Year");
+            localStorage.setItem("month_Year", monthControl.value);
+            myTable.destroy();
+            sum_totalSales = 0;
+            sum_profit_THB = 0;
+            sumDefualt = 0;
+            sumDataSalesAll = 0;
+            myTable = $('#tb_sales_responsible').DataTable({
+                //"serverSide": true,
+                //"scrollY": 300,
+                //"scrollY": "450px",
+                //"scrollX": true,
+                "aoColumns": aoColumns(),
+                "pageLength": "5",
+                "scrollY": true,
+                "searching": false,
+                "lengthChange": false,
+                "paging": true,
+                "ajax": {
+                    "url": "https://localhost:7221/api/Sales_Forecast_Dashboard/Sales_Reponsible",
+                    "method": "GET",
+                    "dataType": "json",
+                    "headers": {
+                        'Authorization': 'Bearer ' + token_Request
+                    },
+                    "data": { salesRespon_recid: txt_pesponsible, user_Id: user_Id, _class: _class, company: company, foreCast_user_Id: foreCast_Id, month_Year: monthControl.value }
+                },
+                "columns": [
+                    {
+                        data: "workersalesresponsible",
+                        "render": function (data, type) {
+                            return "<input type='checkbox' value='" + data + "'>";
+                        }
+                    },
+                    { data: "full_Name" },
+                    {
+                        data: "fore_cast", "render": function (data, type) {
+                            // return Intl.NumberFormat('en-IN', { style: 'currency', currency: 'THB' }).format(data);
+                            return Intl
+                                .NumberFormat('th-TH', { style: 'currency', currency: 'THB' })
+                                .formatToParts(data) // returns an array of the different parts of the amount
+                                .filter(p => p.type != 'currency') // removes the currency part
+                                .reduce((s, p) => s + p.value, '') // joins the remaining values
+                                .trim();
+                        }, className: "dt-body-right"
+                    },
+                    {
+                        data: "total_Sales", "render": function (data, type) {
+                            return Intl
+                                .NumberFormat('th-TH', { style: 'currency', currency: 'THB' })
+                                .formatToParts(data)
+                                .filter(p => p.type != 'currency')
+                                .reduce((s, p) => s + p.value, '')
+                                .trim();
+                        }, className: "dt-body-right"
+                    },
+                    {
+                        data: "total_CostSales", "render": function (data, type) {
+                            return Intl
+                                .NumberFormat('th-TH', { style: 'currency', currency: 'THB' })
+                                .formatToParts(data)
+                                .filter(p => p.type != 'currency')
+                                .reduce((s, p) => s + p.value, '')
+                                .trim();
+
+                        }, className: "dt-body-right"
+                    },
+                    {
+                        data: "total_Margin", "render": function (data, type) {
+
+                            return Intl
+                                .NumberFormat('th-TH', { style: 'currency', currency: 'THB' })
+                                .formatToParts(data)
+                                .filter(p => p.type != 'currency')
+                                .reduce((s, p) => s + p.value, '')
+                                .trim();
+                        }, className: "dt-body-right"
+                    },
+                    {
+                        data: "profit_Percentage", "render": function (data, type) {
+                            return Intl
+                                .NumberFormat('th-TH', { style: 'currency', currency: 'THB' })
+                                .formatToParts(data)
+                                .filter(p => p.type != 'currency')
+                                .reduce((s, p) => s + p.value, '')
+                                .trim();
+                        }, className: "dt-body-right"
+                    },
+
+                ],
+                "order": [[1, "asc"]],
+                "footerCallback": function (row, data, start, end, display) {
+                    var api = this.api();
+                    var nb_cols = api.columns().nodes().length;
+                    var j = 2;
+                    
+                    while (j < nb_cols) {
+                        var pageTotal = api
+                            .column(j, { page: 'current' })
+                            .data()
+                            .reduce(function (a, b) {
+                                if (j == 3) {
+                                    sum_totalSales = Number(a) + Number(b);
+                                }
+                                if (j == 5) {
+                                    sum_profit_THB = Number(a) + Number(b);
+                                }
+                                if (j == 6) {
+                                    return (((sum_profit_THB / sum_totalSales) * 100).toFixed(2));
+                                }
+                                sumDefualt = Number(a) + Number(b);
+                                return (sumDefualt);
+
+                               
+                                //console.log("=>" + j + sumDefualt);
+                            }, 0);
+                        // Update footer
+                        if (j > 1) {
+                            if (j == 6) {
+                                $(api.column(j).footer()).html(pageTotal)
+                            }
+                            if (j < 6) {
+                                $(api.column(j).footer()).html(Intl
+                                    .NumberFormat('th-TH', { style: 'currency', currency: 'THB' })
+                                    .formatToParts(sumDefualt)
+                                    .filter(p => p.type != 'currency')
+                                    .reduce((s, p) => s + p.value, '')
+                                    .trim());
+                            }
+                        }
+                        j++;
+                    }
+                },
+                // "drawCallback": function (settings) {
+                //     // Here the response
+                //     var response = settings.json;
+                //     console.log(response);
+                // },
+            });
+            //myTable.ajax.reload();
+        })
+    });
+
+</script>

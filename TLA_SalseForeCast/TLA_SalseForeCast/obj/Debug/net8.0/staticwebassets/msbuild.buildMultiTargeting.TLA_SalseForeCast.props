@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\TLA_SalseForeCast.props" />
+</Project>

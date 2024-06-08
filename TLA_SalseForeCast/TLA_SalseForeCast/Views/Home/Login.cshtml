@@ -1,0 +1,428 @@
+﻿@using Microsoft.AspNetCore.Http;
+@* @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor; *@
+@{
+    Layout = null;
+    // ViewData["Title"] = "Login";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link href="~/css/site.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family:  Arial, Helvetica, sans-serif;
+            /* background-image: url('../picture/login/Background_Login2.png');
+            background-size: cover;
+            height: 90vh; */
+        }
+
+        .login-container {
+            width: 20%;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 50px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+            /* opacity: 0.92; */
+        }
+        
+        select {
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #FFBD59;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        h4 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+            .input-group label {
+                display: block;
+                margin-bottom: 5px;
+                color: #666;
+            }
+
+            .input-group input {
+                width: 93%;
+                padding: 10px;
+                font-size: 16px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+
+             input:focus {
+                border: 3px solid #4CD2C7;
+              
+            }
+
+
+        .input-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #000000;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            align-items:center;
+            float:right;
+        }
+
+        .select2-container .select2-selection--single .select2-selection__rendered {
+            -webkit-appearance: none !important;
+            /* width: 100% !important; */
+            /* font-size: 1.15rem !important; */
+            padding: 0.3rem !important;
+            background-color: white !important;
+            border: 1px solid #888888 !important;
+            border-radius: 6px;
+            border-block-color: white;
+            
+            button:hover {
+                background-color: dodgerblue;
+            }
+        }
+        @@media screen and  (max-width: 600px) {
+            .login-container{
+                width: 60%;
+            }
+        }
+        @@media screen and (max-width: 770px) {
+            .login-container {
+                width: 50%;
+            }
+        }
+
+    </style>
+</head>
+<body>
+   
+    <div class="login-container">
+        <h1>SALES FORECASTS 
+            @*     @HttpContextAccessor.HttpContext.Session.GetString("First_Name"); *@
+            </h1>
+             <h4>Sign in continue</h4>
+            <div class="input-group">
+                <label>EMAIL</label>
+                <input type="email" id="txt_email" />
+                <p id="result"></p>
+
+            </div>
+            <div class="input-group">
+                <label>PASSWORD</label>
+                <input type="password" id="txt_password" />
+            </div>
+            <div class="input-group">
+                <label>COMPANY</label>
+                <select name="pets" id="txt_selected">
+              @*    <option value="">--Please choose an Company--</option>
+                <option value="TLA">TLA</option>
+                    <option value="ETP">ETP</option>
+                    <option value="BKP">BKP</option>
+                    <option value="BET">BET</option> *@
+                </select> 
+            </div>
+            <div class="input-group">
+            <button type="submit" id="btn_Submit">Login</button>
+            </div>
+    </div>
+
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    @* <script src="~/plugins/select2/js/select2.min.js"></script> *@
+    @* <link href="https:/cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" /> *@
+    <script>
+        $(document).ready(function () {
+            //Variable
+            var re2 = /^(([^<>()[\]\\.,;:\s@@\"]+(\.[^<>()[\]\\.,;:\s@@\"]+)*)|(\".+\"))@@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            let n_email;
+            const validateEmail = (email) => {
+                return email.match(re2);
+            };
+           
+            const validate = () => {
+                const $result = $('#result');
+                const email = $('#txt_email').val();
+                $result.text('');
+                n_email = '';
+                if (validateEmail(email)) {
+                    // $result.text(email + ' is valid.');
+                    // $result.css('color', 'green');
+                    n_email = 'OK';
+                } else {
+               
+                    n_email = 'NG';
+                }
+                return false;
+            }
+            $('#txt_email').on('input', validate);
+            //$("#txt_selected").select2();
+            //$("#txt_selected").removeClass(["select2-container","select2-selection--single","select2-selection__rendered"]);
+            // $("#txt_selected").removeClass("select2-container");
+            // $("#txt_selected").last().addClass(["input-group_2"]);
+            $('#txt_email').on('change', function () {
+                $("#txt_selected").empty();
+                $("#txt_selected").append('<option value="">--Please choose an Company--</option>');
+                if (n_email == "OK") {
+                    $.ajax({
+                        type: "GET",
+                        // url: 'Url.Action("getCompany", "Home")',
+                        url: 'https://localhost:7221/api/Login/Company',
+                        data: {
+                            txt_email: txt_email.value
+                        },
+                        dataType: "json",
+                        success: function (data) {
+                            if (data != "NG") {
+                                console.log(data.data1);
+                                console.log(data.data2);
+                                if (data.data2.role != "Admin") {
+                                    var myselect2 = $('<select>');
+                                    var items = data.data1
+                                    for (var i = 0; i < items.length; i++) {
+                                        myselect2.append($('<option></option>').val(items[i].company_Name).html(items[i].company_Name));
+                                    }
+                                    $('#txt_selected').append(myselect2.html());
+                                    return;
+                                }
+                                else {
+                                    // alert("Admin True")
+                                    getTypeCompanyByAdmin();
+                                }
+
+                                
+                            }
+                            else {
+                            }
+                        },
+                    error: function (data) {
+                            alert("Not User In system!!");
+                        }
+                    });
+                }
+                else{
+                    return;
+                }
+            });
+            var txt_email = document.getElementById("txt_email");
+            let txt_password = document.getElementById("txt_password");
+            let txt_selected = document.getElementById("txt_selected");
+                localStorage.removeItem("user_Id");
+            localStorage.removeItem("first_name");
+            localStorage.removeItem("last_name");
+                localStorage.removeItem("_class");
+                localStorage.removeItem("Class");
+                localStorage.removeItem("User_Id");
+                localStorage.removeItem("Company");
+                localStorage.removeItem("class");
+                localStorage.removeItem("company");
+                localStorage.removeItem("month_Year");
+                localStorage.removeItem("txt_pesponsible");
+                localStorage.removeItem("foreCast_user_Id");
+                localStorage.removeItem("Token");
+            $('#btn_Submit').click(function () {
+                if (txt_email.value != "" && n_email == "OK") {
+
+                    if (txt_password.value != "") {
+
+                        if (txt_selected.value != "") {
+                            login();
+                        }
+                        else {
+                            $('#txt_selected').focus();
+                            Swal.fire({
+                                position: "top",
+                                icon: "error",
+                                title: "กรุณาเลือก Company ของท่าน!!!",
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                        }
+                        
+                    }
+                    else {
+                        $('#txt_password').focus();
+                        Swal.fire({
+                            position: "top",
+                            icon: "error",
+                            title: "กรุณากรอก PassWord ของท่าน!!!",
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                    }
+                }
+                else {
+                    $('#txt_email').focus();
+                    Swal.fire({
+                        position: "top",
+                        icon: "error",
+                        title: "กรุณากรอก Email ของท่านให้ถูกต้อง!!!",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            });
+            function login(){
+                // fetch('https:/localhost:7221/api/Login/Signin')
+                //     .then(response => response.json())
+                //     .then(data => {
+                //         document.querySelector('#txt_email').textContent = txt_email.value
+                //         document.querySelector('#txt_password').textContent = txt_password.value
+                //         document.querySelector('#txt_selected').textContent = txt_selected.value
+                //     })
+                // var dataO = {
+                //     Email: txt_email.value,
+                //     Pass_id: txt_password.value,
+                //     Company: txt_selected.value
+                // };
+                //var json = JSON2.stringify(dataO);
+                $.ajax({
+                    //contentType: "application/json; charset=utf-8",
+                    //อาจจะใช้ ชื่อ Domain || Host เก็บเป็นตัวแปร
+                    url: 'https://localhost:7221/api/Login/Signin',
+                    
+                    type: 'GET', //PUT->Update,POST-> Create, DELETE
+                    dataType: "json",
+                    data: {
+                        txt_email: txt_email.value,
+                        txt_password: txt_password.value,
+                        txt_selected: txt_selected.value
+                    },
+                    //contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                            
+                        if (data.data != null) {
+
+                            localStorage.setItem("company", $('#txt_selected').val());
+                            localStorage.setItem("first_name", data.token.first_Name);
+                            localStorage.setItem("last_name", data.token.last_Name);
+                            localStorage.setItem("_class", data.data.role);
+                            localStorage.setItem("foreCast_user_Id", data.data.foreCast_User_id);
+
+                            localStorage.setItem("user_Id", data.data.login_User_id);
+                            localStorage.setItem("Token", data.token.token);
+                            //location.assign('Url.Action("Form_Fill_Date", "Form_Fill_Date")');
+                            getSession();
+                        }
+                        else {
+                            Swal.fire({
+                                position: "top",
+                                icon: "error",
+                                title: "Email หรือ PassWord ไม่่ถูกต้อง",
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                        }
+                    },
+                    error: function (data) {
+                       // alert("Not User In system!!");
+                        Swal.fire({
+                            position: "top",
+                            icon: "error",
+                            title: "Your PassWord is incorrect.",
+                            showConfirmButton: false,
+                            timer: 3000
+                        });
+                    }
+                });
+            }
+            function getTypeCompanyByAdmin() {
+                $.ajax({
+                    type: "GET",
+                    url: '@Url.Action("getTypeCompanyByAdmin", "Home")',
+                    data: {
+                        txt_email: txt_email.value
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                        if (data != "NG") {
+                                var myselect2 = $('<select>');
+                                var items = data.data
+                                for (var i = 0; i < items.length; i++) {
+                                    myselect2.append($('<option></option>').val(items[i].id).html(items[i].id));
+                                }
+                                $('#txt_selected').append(myselect2.html());
+                                return;
+                        }
+                        else {
+                        }
+                    },
+                    error: function (data) {
+                        alert("Not User In system!!");
+                    }
+                });
+            
+            }
+            function getSession() {
+                $.ajax({
+
+                    type: "GET",
+                    url: '@Url.Action("GetSession", "Session")',
+                    data: {
+                        //userName: localStorage.getItem("foreCast_user_Id")
+                        first_name: localStorage.getItem("first_name"),
+                        last_name: localStorage.getItem("last_name"),
+                        userName: localStorage.getItem("foreCast_user_Id")
+                    },
+                    success: function (data) {
+                        if (data != "NG") {
+                            // alert("Session successfully archived.");
+                            //location.assign('Url.Action("Form_Fill_Date", "Form_Fill_Date")');
+                            location.assign('@Url.Action("Form_Fill_Date", "Form_Fill_Date")');
+                            return;
+                        }
+                        else {
+                            alert("Session NG.");
+                        }
+                    },
+                    error: function (data) {
+                        alert("Failed to archive session.");
+                    }
+                });
+            }
+        });
+
+        // document.addEventListener("keydown", keyDownTextField, false);
+
+        // function keyDownTextField(e) {
+        //     var keyCode = e.keyCode;
+        //     if (keyCode == 13) {
+        //         alert("You hit the enter key.");
+        //     } else {
+        //         alert("Oh no you didn't.");
+        //     }
+        // }
+    </script>
+</body>
+
+
+</html>
